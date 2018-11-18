@@ -20099,6 +20099,47 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-hot-loader/dist/react-hot-loader.production.min.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/react-hot-loader/dist/react-hot-loader.production.min.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+function _interopDefault(t){return t&&"object"==typeof t&&"default"in t?t.default:t}Object.defineProperty(exports,"__esModule",{value:!0});var React=_interopDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js")),classCallCheck=function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")},inherits=function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)},possibleConstructorReturn=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e},AppContainer=function(t){function e(){return classCallCheck(this,e),possibleConstructorReturn(this,t.apply(this,arguments))}return inherits(e,t),e.prototype.render=function(){return React.Children.only(this.props.children)},e}(React.Component),hot_prod=function(){return function(t){return t}},areComponentsEqual=function(t,e){return t===e},setConfig=function(){},cold=function(t){return t};exports.AppContainer=AppContainer,exports.hot=hot_prod,exports.areComponentsEqual=areComponentsEqual,exports.setConfig=setConfig,exports.cold=cold;
+
+
+/***/ }),
+
+/***/ "./node_modules/react-hot-loader/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/react-hot-loader/index.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var evalAllowed = false;
+try {
+  eval('evalAllowed = true');
+} catch (e) {
+  // eval not allowed due to CSP
+}
+
+// RHL needs setPrototypeOf to operate Component inheritance, and eval to patch methods
+var platformSupported = !!Object.setPrototypeOf && evalAllowed;
+
+if (true) {
+  if (false) {}
+  module.exports = __webpack_require__(/*! ./dist/react-hot-loader.production.min.js */ "./node_modules/react-hot-loader/dist/react-hot-loader.production.min.js");
+} else {}
+
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react.development.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
@@ -23085,6 +23126,39 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/webpack/buildin/module.js":
+/*!***********************************!*\
+  !*** (webpack)/buildin/module.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
 /***/ "./src/components/Hello.tsx":
 /*!**********************************!*\
   !*** ./src/components/Hello.tsx ***!
@@ -23093,7 +23167,7 @@ if (false) {} else {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(module) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -23109,8 +23183,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-// const styles = require('./index.less');
 var styles = __webpack_require__(/*! ./index.less */ "./src/components/index.less");
+// import './index.less';
+// import * as styles from './index.less';
+var react_hot_loader_1 = __webpack_require__(/*! react-hot-loader */ "./node_modules/react-hot-loader/index.js");
 // 'HelloProps' describes the shape of props.
 // State is never set so we use the '{}' type.
 var Hello = /** @class */ (function (_super) {
@@ -23120,17 +23196,19 @@ var Hello = /** @class */ (function (_super) {
     }
     Hello.prototype.render = function () {
         console.log(styles);
-        return (React.createElement("div", { className: styles.test },
-            "Hello from ",
-            this.props.name,
-            " and ",
-            this.props.age,
-            "!"));
+        var _a = this.props, name = _a.name, age = _a.age;
+        return (React.createElement("div", { className: styles['test'] },
+            "Hello name is ",
+            name,
+            ", I'm ",
+            age,
+            " years old\uFF01"));
     };
     return Hello;
 }(React.Component));
-exports.Hello = Hello;
+exports.default = react_hot_loader_1.hot(module)(Hello);
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -23159,7 +23237,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 var Hello_1 = __webpack_require__(/*! ./components/Hello */ "./src/components/Hello.tsx");
-ReactDOM.render(React.createElement(Hello_1.Hello, { name: "huangbin", age: 22 }), document.getElementById("root"));
+ReactDOM.render(React.createElement(Hello_1.default, { name: "huangbin", age: "22" }), document.getElementById("root"));
 
 
 /***/ })

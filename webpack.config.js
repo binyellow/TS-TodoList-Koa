@@ -1,5 +1,6 @@
 var htmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
   entry: __dirname + "/src/index.tsx",
@@ -21,8 +22,15 @@ module.exports = {
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       {
         test: /\.tsx?$/,
-        loader: "awesome-typescript-loader"
+        loader: "awesome-typescript-loader",
         // include: __dirname,
+        // options: {
+        //   // This is a feature of `babel-loader` for webpack (not Babel itself).
+        //   // It enables caching results in ./node_modules/.cache/babel-loader/
+        //   // directory for faster rebuilds.
+        //   cacheDirectory: true,
+        //   plugins: ['react-hot-loader/babel'],
+        // },
       },
       {
         test: /\.css$/,
@@ -38,8 +46,14 @@ module.exports = {
           use: [
             {
               loader: 'css-loader',
-              options: {
+              options: { 
+                // sourceMap: true,
+                // importLoaders: true,
                 modules: true,
+                // namedExport: true,
+                // camelCase: true,
+                // minimize: true,
+                // localIdentName: "[local]_[hash:base64:5]"
               }
             },
             { loader: 'less-loader' }
@@ -61,7 +75,9 @@ module.exports = {
       template: './src/index.html',
       inject: 'body'
     }),
-    new ExtractTextPlugin('style.css')
+    new ExtractTextPlugin('style.css'),
+    new OpenBrowserPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
   ],
   // When importing a module whose path matches one of the following, just
   // assume a corresponding global variable exists and use that instead.
