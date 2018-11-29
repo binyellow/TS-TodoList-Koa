@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from 'antd';
 import axios from 'axios';
 const styles = require('./index.less');
 // import './index.less';
@@ -38,7 +39,7 @@ class Hello extends React.Component<HelloProps, {}> {
     const { name, age } = this.props;
     return (<div className={styles['test']}>
       Hello name is {name}, I'm <a onClick={(e)=>this.sayAge(age)}>{age}</a> years old！
-      <button onClick={this.clickRequest.bind(this)}>发起跨域请求111111111112222222</button>
+      <Button type="primary" onClick={this.clickRequest.bind(this)}>发起跨域请求111111111112222222</Button>
       <div>{this.state.requestData}</div>
     </div>
     );

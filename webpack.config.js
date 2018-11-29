@@ -6,7 +6,8 @@ module.exports = {
   entry: __dirname + "/src/index.tsx",
   output: {
     filename: "bundle-[name].js",
-    path: __dirname + "/dist"
+    path: __dirname + "/dist", // 默认是dist
+    // publicPath: __dirname + '/dist/', // 配置默认import的资源地址
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -61,11 +62,11 @@ module.exports = {
         })
       },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      {
-        enforce: "pre",
-        test: /\.js$/,
-        loader: "source-map-loader"
-      }
+      // {
+      //   enforce: "pre",
+      //   test: /\.js$/,
+      //   loader: "source-map-loader"
+      // }
     ]
   },
 
@@ -88,10 +89,12 @@ module.exports = {
   //       "ReactDOM": "ReactDOM"
   //   }
   devServer: {
+    contentBase: './dist', // 服务代理的默认地址
+    // port: 9000, 端口地址
     proxy: {
       // 凡是 `/api` 开头的 http 请求，都会被代理到 localhost:3000 上，由 koa 提供 mock 数据。
       // koa 代码在 ./mock 目录中，启动命令为 npm run mock
-      '/': {
+      '/test': {
         target: 'http://localhost:3000',
         secure: false
       }
