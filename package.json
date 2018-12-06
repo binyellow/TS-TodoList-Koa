@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --hot --progress --color",
-    "koa": "nodemon server/index.js"
+    "koa": "nodemon server/index.js --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.18.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.4",
     "babel-plugin-import": "^1.11.0",
@@ -41,6 +42,7 @@
     "koa": "^2.6.2",
     "less": "^3.8.1",
     "less-loader": "^4.0.2",
+    "mongoose": "^5.3.14",
     "open-browser-webpack-plugin": "^0.0.5",
     "react-hot-loader": "^4.3.12",
     "source-map-loader": "^0.2.4",

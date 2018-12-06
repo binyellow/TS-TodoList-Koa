@@ -6,19 +6,21 @@ const styles = require('./index.less');
 // import * as styles from './index.less';
 import { hot } from 'react-hot-loader'
 
-export interface HelloProps { name: string; age: number; }
+export interface AppProps { name: string; age: number; }
 
-// 'HelloProps' describes the shape of props.
+// 'AppProps' describes the shape of props.
 // State is never set so we use the '{}' type.
-class Hello extends React.Component<HelloProps, {}> {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     requestData: ''
-  //   }
-  // }
-  state = {
-    requestData: ''
+
+// @hot(module)
+class App extends React.Component<AppProps, {requestData: string}> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      requestData: ''
+    }
+  }
+  componentDidMount() {
+    console.log('father');
   }
   sayAge(age: number) {
     console.log(age);
@@ -38,11 +40,11 @@ class Hello extends React.Component<HelloProps, {}> {
     // console.log(styles);
     const { name, age } = this.props;
     return (<div className={styles['test']}>
-      Hello name is {name}, I'm <a onClick={(e)=>this.sayAge(age)}>{age}</a> years old！
-      <Button type="primary" onClick={this.clickRequest.bind(this)}>发起跨域请求111111111112222222</Button>
+      App name is {name}, I'm <a onClick={(e)=>this.sayAge(age)}>{age}</a> years old！
+      <Button type="primary" onClick={this.clickRequest.bind(this)}>发起跨域请求</Button>
       <div>{this.state.requestData}</div>
     </div>
     );
   }
 }
-export default hot(module)(Hello)
+export default hot(module)(App)

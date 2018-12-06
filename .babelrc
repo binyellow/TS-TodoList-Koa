@@ -9,5 +9,12 @@
       }
     ],
     "transform-decorators-legacy"
+  ],
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
   ]
 }
