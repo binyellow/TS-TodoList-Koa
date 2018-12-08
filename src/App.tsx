@@ -1,0 +1,14 @@
+import * as React from 'react';
+import styles from './App.less';
+
+class App extends React.Component {
+  public render() {
+    return (
+      <div className={styles.app}>
+        <span>1</span>
+      </div>
+    );
+  }
+}
+
+export default App;
