@@ -1,12 +1,12 @@
-// const { injectBabelPlugin } = require('react-app-rewired')
-const rewireLessWithModule = require('react-app-rewire-less-with-modules')
+const { injectBabelPlugin } = require('react-app-rewired');
+const rewireLessWithModule = require('react-app-rewire-less-with-modules');
 
 module.exports = function override (config, env) {
-  // config = injectBabelPlugin(['import', {
-  //   libraryName: 'antd',
-  //   libraryDirectory: 'es',
-  //   style: true
-  // }], config)
+  config = injectBabelPlugin(['import', {
+    libraryDirectory: 'es',
+    libraryName: 'antd',
+    style: true
+  }], config)
   config = rewireLessWithModule(config, env, {
     // modifyVars: {
     //   '@primary-color': 'red',
