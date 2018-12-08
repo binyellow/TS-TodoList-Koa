@@ -1,6 +1,18 @@
-.todo {
+.wrapper {
   display: flex;
-  justify-content: center;
-  padding: 20px;
-  color: red;
+  align-items: center;
+  flex-flow: column nowrap;
+  .todo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: rgba(24, 144, 255, .8);
+    :global {
+      .ant-input {
+        width: 150px;
+        margin: 0 20px;
+      }
+    }
+  }
 }
