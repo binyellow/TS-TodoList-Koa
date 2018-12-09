@@ -3,9 +3,10 @@ todolist with TS Koa MongoDB Webpack
 
 ### plan
 - [X] Redux
-- [ ] Router
+- [X] Router
 - [X] Koa
-- [ ] register
+- [ ] nginx to agency the local request
+- [ ] register adn login with token
 
 ### Some problem in the progress
 - [X] less-loader support css modules: react-app-rewire-less-with-modules

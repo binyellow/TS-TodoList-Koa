@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
 import styles from './index.module.less';
 
-interface LoginProps {
+interface RegisterProps {
   form: any
 }
 const FormItem = Form.Item;
 
-class Login extends Component<LoginProps> {
+class Register extends Component<RegisterProps> {
   public render() {
     const { form: { getFieldDecorator } } = this.props;
     return (
@@ -24,7 +24,7 @@ class Login extends Component<LoginProps> {
           )}
           </FormItem>
           <FormItem>
-            <Button htmlType="submit" type="primary">登录</Button>
+            <Button htmlType="submit" type="primary">注册</Button>
           </FormItem>
         </Form>
       </div>
@@ -32,4 +32,4 @@ class Login extends Component<LoginProps> {
   }
 }
 
-export default Form.create()(Login);
+export default Form.create()(Register);

@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reducer from './reducer';
 import Todo from './routes/Todo/Todo';
 import Login from './routes/Login';
+import Register from './routes/Register';
 import './index.css';
 
 const middleware = [logger, thunk];
@@ -23,7 +24,8 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route path="/todo" component={Todo}/>
-        <Route path="/" component={Login}/>
+        <Route path="/" component={Register}/>
+        <Route path="/login" component={Login}/>
       </Switch>
     </BrowserRouter>
   </Provider>,
