@@ -1,3 +1,4 @@
 const ADD = "ADD";
+const DELETE = "DELETE";
 
-export { ADD }
+export { ADD, DELETE }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Input, Form } from 'antd';
 import { connect } from 'react-redux';
+import { Bind } from 'lodash-decorators';
 import * as actions from '../../actions/todo'; // shadow name problem must to import *
 import TodoList from './TodoList';
 import styles from './index.module.less';
@@ -16,10 +17,7 @@ const FormItem = Form.Item;
 //   { addTodo }
 // )
 class Todo extends Component<TodoProps, {}> {
-  constructor(props: any) {
-    super(props);
-    this.handleAdd = this.handleAdd.bind(this);
-  }
+  @Bind()
   public handleAdd() {
     const {
       addTodo,
@@ -32,7 +30,7 @@ class Todo extends Component<TodoProps, {}> {
         todo&&addTodo({
           todoList: [
             ...todoList,
-            todo
+            {content: todo, completed: false}
           ]
         });
         resetFields();
@@ -64,4 +62,7 @@ class Todo extends Component<TodoProps, {}> {
   }
 }
 
-export default connect((state: any)=>({todoState: state.todo}), { addTodo: actions.addTodo })(Form.create()(Todo));
+export default connect(
+  (state: any)=>({todoState: state.todo}),
+  { addTodo: actions.addTodo }
+)(Form.create()(Todo));
