@@ -1,6 +1,12 @@
 # TS-TodoList-Koa
 todolist with TS Koa MongoDB Webpack
 
+### plan
+- [X] Redux
+- [ ] Router
+- [X] Koa
+- [ ] register
+
 ### Some problem in the progress
 - [X] less-loader support css modules: react-app-rewire-less-with-modules
 - [X] tslint: import order problem
@@ -12,6 +18,7 @@ todolist with TS Koa MongoDB Webpack
 - [X] antd problem about input>TextArea: 
   - Open: node_modules/antd/lib/input/TextArea.d.ts
   - Insert import: import ResizeObserver from 'resize-observer-polyfill';
+  - [link to antd](https://github.com/ant-design/ant-design/issues/13405)
 - [X] asy import the Component: [antd official document](https://ant.design/docs/react/use-in-typescript-cn)
 - [X] nodemon and babel-cli to translate ES6 to lower version and hot replace, use nodemon.json to config the ignore about hot watch file: 
     ```js

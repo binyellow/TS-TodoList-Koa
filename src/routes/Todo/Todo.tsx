@@ -42,7 +42,7 @@ class Todo extends Component<TodoProps, {}> {
     const { getFieldDecorator } = form;
     return (
       <div className={styles.wrapper}>
-        <div className={styles.todo}>
+        <Form className={styles.todo}>
           <FormItem label="Todo" help>
           {
             getFieldDecorator('todo',{
@@ -54,8 +54,8 @@ class Todo extends Component<TodoProps, {}> {
             )
           }
           </FormItem>
-          <Button type="primary" icon="plus" onClick={this.handleAdd}>添加</Button>
-        </div>
+          <Button type="primary" htmlType="submit" icon="plus" onClick={this.handleAdd}>添加</Button>
+        </Form>
         <TodoList/>
       </div>
     );
