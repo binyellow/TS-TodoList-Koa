@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
-import axios from 'axios';
+import notification from '../../utils/notification';
+import { getResponse } from '../../utils/utils';
+import { register } from '../../services/user';
 import { Bind } from 'lodash-decorators';
 import styles from './index.module.less';
 
@@ -15,8 +17,11 @@ class Register extends Component<RegisterProps> {
     const { form: { validateFields } } = this.props;
     validateFields((err: any,values: any)=>{
       if(!err) {
-        axios.post('/user/register', values).then(res=>{
-          console.log(res);
+        register(values).then(res=>{
+          const result = getResponse(res);
+          if(result) {
+            notification.success();
+          }
         })
       }
     })
