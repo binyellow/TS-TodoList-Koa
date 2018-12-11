@@ -9,11 +9,13 @@
 import Koa from 'koa';
 import connect from './db/connect';
 import Todo from './models/todo';
-const cors = require('koa2-cors')
+import bodyParser from 'koa-bodyparser';
+import cors from 'koa2-cors';
 import router from './routers/index';
 const app = new Koa();
 
 connect();
 app.use(cors());
+app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(3001, ()=>console.log('listen on 3001'));

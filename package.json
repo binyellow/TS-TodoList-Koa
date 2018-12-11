@@ -47,5 +47,6 @@
     "redux-thunk": "^2.3.0",
     "ts-import-plugin": "^1.5.5",
     "typescript": "^3.2.2"
-  }
+  },
+  "proxy": "http://127.0.0.1:3001"
 }
