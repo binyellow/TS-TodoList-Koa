@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Bind } from 'lodash-decorators';
+import { login } from '../../services/user';
+import notification from '../../utils/notification';
+import { getResponse } from '../../utils/utils';
+
 import styles from './index.module.less';
 
 interface LoginProps {
@@ -7,24 +13,48 @@ interface LoginProps {
 }
 const FormItem = Form.Item;
 
-class Login extends Component<LoginProps> {
+class Login extends Component<LoginProps & RouteComponentProps> {
+  @Bind()
+  public handleLogin() {
+    const { form: { validateFields } } = this.props;
+    validateFields((err: object, values: object)=>{
+      if(!err) {
+        login(values).then(res=>{
+          const result = getResponse(res);
+          if(result) {
+            const { _id } = result.content;
+            notification.success();
+            this.props.history.push(`/todo/${_id}`);
+          }
+        })
+      }
+    })
+  }
   public render() {
     const { form: { getFieldDecorator } } = this.props;
     return (
       <div className={styles.wrapper}>
         <Form>
-          <FormItem label="账号">
-          {getFieldDecorator('name')(
+          <FormItem label="账号" help>
+          {getFieldDecorator('name',{
+            rules: [
+              {required: true}
+            ]
+          })(
             <Input/>
           )}
           </FormItem>
-          <FormItem label="密码">
-          {getFieldDecorator('password')(
+          <FormItem label="密码" help>
+          {getFieldDecorator('passWord',{
+            rules: [
+              {required: true}
+            ]
+          })(
             <Input/>
           )}
           </FormItem>
           <FormItem>
-            <Button htmlType="submit" type="primary">登录</Button>
+            <Button htmlType="submit" type="primary" onClick={this.handleLogin}>登录</Button>
           </FormItem>
         </Form>
       </div>
@@ -32,4 +62,4 @@ class Login extends Component<LoginProps> {
   }
 }
 
-export default Form.create()(Login);
+export default withRouter(Form.create()(Login));

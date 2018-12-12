@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import reducer from './reducer';
 import Todo from './routes/Todo/Todo';
@@ -23,9 +23,10 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route path="/todo" component={Todo}/>
-        <Route path="/" component={Register}/>
         <Route path="/login" component={Login}/>
+        <Route path="/todo/:id" component={Todo}/>
+        <Route exact path="/" component={Register}/>
+        <Redirect from="/huang" to="/login" />
       </Switch>
     </BrowserRouter>
   </Provider>,

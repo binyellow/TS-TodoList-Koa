@@ -52,7 +52,7 @@ class Register extends Component<RegisterProps & RouteComponentProps> {
           </FormItem>
           <FormItem>
             <Button htmlType="submit" type="primary" onClick={this.handleRegister}>注册</Button>
-            <Link to="/login">登录</Link>
+            <Link style={{marginLeft: '10px'}} to="/login">登录</Link>
           </FormItem>
         </Form>
       </div>
