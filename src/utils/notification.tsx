@@ -3,7 +3,7 @@ import { notification } from 'antd';
 interface ParamsProps {
   message: string
   description: string
-  [key: string]: any
+  // [key: string]: any
 }
 /**
  * 操作成功通知提示

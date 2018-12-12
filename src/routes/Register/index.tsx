@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+
 import notification from '../../utils/notification';
 import { getResponse } from '../../utils/utils';
 import { register } from '../../services/user';
@@ -10,8 +12,7 @@ interface RegisterProps {
   form: any
 }
 const FormItem = Form.Item;
-
-class Register extends Component<RegisterProps> {
+class Register extends Component<RegisterProps & RouteComponentProps> {
   @Bind()
   public handleRegister() {
     const { form: { validateFields } } = this.props;
@@ -51,6 +52,7 @@ class Register extends Component<RegisterProps> {
           </FormItem>
           <FormItem>
             <Button htmlType="submit" type="primary" onClick={this.handleRegister}>注册</Button>
+            <Link to="/login">登录</Link>
           </FormItem>
         </Form>
       </div>
@@ -58,4 +60,4 @@ class Register extends Component<RegisterProps> {
   }
 }
 
-export default Form.create()(Register);
+export default withRouter(Form.create()(Register));

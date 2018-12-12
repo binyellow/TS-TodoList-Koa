@@ -7,6 +7,7 @@ todolist with TS Koa MongoDB Webpack
 - [X] Koa
 - [ ] nginx to agency the local request
 - [ ] register adn login with token
+- [ ] docker,jenkins
 
 ### Some problem in the progress
 - [X] less-loader support css modules: react-app-rewire-less-with-modules
