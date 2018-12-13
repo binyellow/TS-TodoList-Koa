@@ -2,11 +2,11 @@
 ```js
 {
   failed: Boolean, // status of request
-  message?: String,
-  result?: String, // object of request
+  message: String,
   content?: Array,  // fetch list's content
   total?: Number, // total number of contents
-  page?: Number, // current page number
-  size?: Number, // page size
+  current?: Number, // current page number
+  pageSize?: Number, // page size
+  result?: String, // object of request
 }
 ```

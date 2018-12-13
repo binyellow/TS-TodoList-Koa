@@ -1,21 +1,15 @@
 import user from '../models/user';
+import { successResponse, failedResponse } from '../utils/response';
 
 async function register(ctx, next) {
   const { name } = ctx.request.body;
   const res = await user.findOne({ name });
   if(res) {
-    ctx.body = {
-      failed: true,
-      message: "用户名已存在",
-      result: res
-    }
+    ctx.body = failedResponse({message: '用户名已存在', content: res});
   } else {
     const add = await user.create(ctx.request.body);
     console.log(add);
-    ctx.body = {
-      failed: false,
-      message: "注册成功"
-    }
+    ctx.body = successResponse({message: "注册成功", content: res});
   }
 }
 
@@ -25,22 +19,12 @@ async function login(ctx) {
   if(res) {
     const passRes = await user.findOne({ name, passWord });
     if(passRes) {
-      ctx.body = {
-        failed: false,
-        message: "登录成功!",
-        content: passRes,
-      }
+      ctx.body = successResponse({ message: "登录成功!", content: passRes });
     } else {
-      ctx.body = {
-        failed: true,
-        message: "密码不正确!"
-      }
+      ctx.body = failedResponse({ message: "密码不正确!" });
     }
   } else {
-    ctx.body = {
-      failed: true,
-      message: '账号不存在!'
-    }
+    ctx.body = failedResponse({ message: '账号不存在!' });
   }
 }
 module.exports = { register, login }

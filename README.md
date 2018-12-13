@@ -9,7 +9,7 @@ todolist with TS Koa MongoDB Webpack
 - [ ] learn mongoDB index
 - [ ] encapsulated return params
 - [ ] nginx to agency the local request
-- [ ] register adn login with token
+- [ ] register and login with token
 - [ ] docker,jenkins
 
 ### Some problem in the progress

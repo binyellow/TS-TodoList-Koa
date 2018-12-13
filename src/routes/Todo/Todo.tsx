@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Input, Form } from 'antd';
+import uuid from 'uuid/v4';
 import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -54,7 +55,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> 
         content && addTodo({
           todoList: [
             ...todoList,
-            {userId, content, completed: false}
+            { userId, content, completed: false, time: Date.now(), _id: uuid() }
           ]
         });
         add({ userId, content, completed: false }).then(res=>{

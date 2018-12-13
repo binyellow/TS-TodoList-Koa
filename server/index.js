@@ -11,6 +11,7 @@ import connect from './db/connect';
 import Todo from './models/todo';
 import bodyParser from 'koa-bodyparser';
 import cors from 'koa2-cors';
+import qs from 'querystring';
 import router from './routers/index';
 const app = new Koa();
 
