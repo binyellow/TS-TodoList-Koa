@@ -19,7 +19,11 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "utils/*": ["./src/utils/*"],
+      "service/*": ["./src/services/*"],
+    }
   },
   "exclude": [
     "node_modules",

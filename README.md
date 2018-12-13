@@ -34,3 +34,5 @@ todolist with TS Koa MongoDB Webpack
 - [X] implicitly has an 'any' type: to install @types/moduleName to resolve this problem
 - [X] connect problem: [decorator and no](https://stackoverflow.com/questions/46861839/typescript-connect-react-redux-decorator-with-stateful-component)
 - [X] [params with shadow](https://stackoverflow.com/questions/52968903/shadowed-name-in-typescript-and-react-redux)
+- [X] Router props problem: import RouteComponentProps from react-router-dom to define the Component's props
+- [X] alias problem: Resolve alias issues by adding a path configuration in tsconfig

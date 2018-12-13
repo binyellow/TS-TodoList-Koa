@@ -1,4 +1,5 @@
 // const { injectBabelPlugin } = require('react-app-rewired');
+const path = require('path');
 const tsImportPluginFactory = require('ts-import-plugin');
 const { getLoader } = require("react-app-rewired");
 const rewireLessWithModule = require('react-app-rewire-less-with-modules');
@@ -35,5 +36,12 @@ module.exports = function override (config, env) {
     //   '@line-height-base': '1.2'
     // },
   })
+  // config.resolve = {
+  //   alias: {
+  //     // services: path.resolve(__dirname, 'src/services/'),
+  //     utils: path.resolve(__dirname, 'src/utils/')
+  //   },
+  //   extensions: [ '.ts', '.js', '.json', '.css', '.tsx', '.less' ],
+  // };
   return config
 }

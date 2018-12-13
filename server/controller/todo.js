@@ -27,7 +27,7 @@ async function fetchList(ctx, next) {
     }
   } else {
     ctx.body = {
-      failed: true,
+      failed: false,
       message: '无list',
       content: []
     }

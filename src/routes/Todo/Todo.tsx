@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
+import { getResponse } from 'utils/utils';
+import notification from 'utils/notification';
 import * as actions from '../../actions/todo'; // shadow name problem must to import *
 import { add, fetchTodoList } from '../../services/todo';
 import TodoList from './TodoList';
 import styles from './index.module.less';
-import notification from '../../utils/notification';
-import { getResponse } from '../../utils/utils';
 
 interface TodoProps {
   addTodo: any,
@@ -32,11 +32,11 @@ class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> 
   }
   public componentDidMount() {
     const { userId } = this.state;
-    const { todoState: { todoList = [] }, addTodo } = this.props;
+    const { addTodo } = this.props;
     fetchTodoList({ userId }).then(res=>{
       const result = getResponse(res);
       if(result) {
-        addTodo({ todoList: [...todoList, ...result.content] });
+        addTodo({ todoList: result.content });
       }
     })
   }
@@ -54,7 +54,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> 
         content && addTodo({
           todoList: [
             ...todoList,
-            {content, completed: false}
+            {userId, content, completed: false}
           ]
         });
         add({ userId, content, completed: false }).then(res=>{
