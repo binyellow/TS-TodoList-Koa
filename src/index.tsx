@@ -24,7 +24,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route path="/login" component={Login}/>
-        <Route path="/todo/:id" component={Todo}/>
+        <Route path="/todo/:userId" component={Todo}/>
         <Route exact path="/" component={Register}/>
         <Redirect from="/huang" to="/login" />
       </Switch>

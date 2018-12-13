@@ -19,7 +19,7 @@ function checkStatus(response: any) {
 
 export default function request(url: string, options: any) {
   const newOptions = { responseType: 'json', ...options };
-  newOptions.body = JSON.stringify(newOptions.body);
+  // newOptions.body = JSON.stringify(newOptions.body);
   return axios({
     url,
     ...newOptions

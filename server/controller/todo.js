@@ -1,8 +1,8 @@
 import todo from '../models/todo';
 
-async function get(ctx, next) {
-  const { content } = ctx.query;
-  const res = await todo.findOne({content});
+async function add(ctx, next) {
+  const { userId, content, completed } = ctx.request.body;
+  const res = await todo.create({ userId, content, completed });
   if(res.length!==0) {
     ctx.body = {
       failed: false,
@@ -11,9 +11,27 @@ async function get(ctx, next) {
   } else {
     ctx.body = {
       failed: true,
-      message: 'no content'
+      message: '新增失败'
     }
   }
 }
 
-module.exports = { get }
+async function fetchList(ctx, next) {
+  const { userId } = ctx.query;
+  const res = await todo.find({ userId });
+  if(res.length!==0) {
+    ctx.body = {
+      failed: false,
+      message: "查询成功",
+      content: res
+    }
+  } else {
+    ctx.body = {
+      failed: true,
+      message: '无list',
+      content: []
+    }
+  }
+}
+
+module.exports = { add, fetchList }

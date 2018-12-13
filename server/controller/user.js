@@ -6,7 +6,8 @@ async function register(ctx, next) {
   if(res) {
     ctx.body = {
       failed: true,
-      message: "用户名已存在"
+      message: "用户名已存在",
+      result: res
     }
   } else {
     const add = await user.create(ctx.request.body);

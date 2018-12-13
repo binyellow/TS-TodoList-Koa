@@ -24,7 +24,15 @@ class Login extends Component<LoginProps & RouteComponentProps> {
           if(result) {
             const { _id } = result.content;
             notification.success();
-            this.props.history.push(`/todo/${_id}`);
+            const path = {
+              pathname: `/todo/${_id}`,
+              // state: {
+              //   name: 'huangbin',
+              //   age: 23
+              // },
+              // search: 'name=huang&age=23'
+            }
+            this.props.history.push(path);
           }
         })
       }

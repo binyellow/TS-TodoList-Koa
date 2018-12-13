@@ -5,6 +5,9 @@ todolist with TS Koa MongoDB Webpack
 - [X] Redux
 - [X] Router
 - [X] Koa
+- [ ] add DB Dao
+- [ ] learn mongoDB index
+- [ ] encapsulated return params
 - [ ] nginx to agency the local request
 - [ ] register adn login with token
 - [ ] docker,jenkins

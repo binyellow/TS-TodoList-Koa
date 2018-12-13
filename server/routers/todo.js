@@ -1,7 +1,8 @@
 import KoaRouter from 'koa-router';
-import { get } from '../controller/todo';
+import { add, fetchList } from '../controller/todo';
 const todo = new KoaRouter();
 
-todo.get('/test', get);
+todo.post('/add', add);
+todo.get('/fetch', fetchList);
 
 module.exports = todo;
