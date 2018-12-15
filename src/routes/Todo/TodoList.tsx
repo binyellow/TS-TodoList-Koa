@@ -78,7 +78,7 @@ class TodoList extends Component<TodoListProps, S> {
       {
         title: '是否已完成',
         dataIndex: 'completed',
-        width: 100,
+        width: 120,
         render: (value: boolean) => value ? '是' : '否',
       },
       {

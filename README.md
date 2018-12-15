@@ -9,6 +9,7 @@ todolist with TS Koa MongoDB Webpack
 - [X] encapsulated return params
 - [X] nginx to agency the local request
 - [ ] add delete and toggle completed
+- [ ] add editRow,Cell. add Search
 - [ ] register and login with token
 - [ ] docker,jenkins
 
