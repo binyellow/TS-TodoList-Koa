@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
+import { LocaleProvider } from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import reducer from './reducer';
@@ -20,15 +22,17 @@ const store = createStore(reducer, compose(
   composeWithDevTools()
 ))
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login" component={Login}/>
-        <Route path="/todo/:userId" component={Todo}/>
-        <Route exact path="/" component={Register}/>
-        <Redirect from="/huang" to="/login" />
-      </Switch>
-    </BrowserRouter>
-  </Provider>,
+  <LocaleProvider locale={zh_CN}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login" component={Login}/>
+          <Route path="/todo/:userId" component={Todo}/>
+          <Route exact path="/" component={Register}/>
+          <Redirect from="/huang" to="/login" />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
+  </LocaleProvider>,
   document.getElementById('root') as HTMLElement
 );

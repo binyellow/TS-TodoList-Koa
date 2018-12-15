@@ -1,6 +1,10 @@
 import { ADD, DELETE } from '../constance/todo';
 
-export function todo(state = {}, action) {
+const initialState = {
+  pagination: {},
+  todoList: [],
+}
+export function todo(state = initialState, action) {
   switch(action.type) {
     case ADD:
       return {

@@ -23,6 +23,7 @@
     "paths": {
       "utils/*": ["./src/utils/*"],
       "service/*": ["./src/services/*"],
+      "constance/*": ["./src/constance/*"],
     }
   },
   "exclude": [

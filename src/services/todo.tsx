@@ -1,4 +1,5 @@
 import request from '../utils/request';
+import { parseParams } from 'utils/utils';
 
 export async function add(params: any) {
   return request(`/todo/add`, {
@@ -10,6 +11,6 @@ export async function add(params: any) {
 export async function fetchTodoList(params: any) {
   return request(`/todo/fetch`, {
     method: 'GET',
-    params,
+    params: parseParams(params),
   })
 }

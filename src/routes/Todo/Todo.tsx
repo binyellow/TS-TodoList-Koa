@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-import { getResponse } from 'utils/utils';
 import notification from 'utils/notification';
 import * as actions from '../../actions/todo'; // shadow name problem must to import *
-import { add, fetchTodoList } from '../../services/todo';
+import { add } from '../../services/todo';
 import TodoList from './TodoList';
 import styles from './index.module.less';
 
@@ -18,29 +17,23 @@ interface TodoProps {
   todoState: any,
   userId: number,
 }
+interface S {
+  userId: number;
+}
 const FormItem = Form.Item;
 // @connect(
 //   (state: any)=>state,
 //   { addTodo }
 // )
-class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> {
+class Todo extends Component<TodoProps & RouteComponentProps, S> {
   constructor(props: TodoProps & RouteComponentProps) {
     super(props);
     const { userId } = this.props.match.params as TodoProps;
     this.state = {
-      userId
+      userId,
     }
   }
-  public componentDidMount() {
-    const { userId } = this.state;
-    const { addTodo } = this.props;
-    fetchTodoList({ userId }).then(res=>{
-      const result = getResponse(res);
-      if(result) {
-        addTodo({ todoList: result.content });
-      }
-    })
-  }
+  
   @Bind()
   public handleAdd() {
     const {
@@ -54,8 +47,8 @@ class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> 
         const { content } = values;
         content && addTodo({
           todoList: [
-            ...todoList,
-            { userId, content, completed: false, time: Date.now(), _id: uuid() }
+            { userId, content, completed: false, time: Date.now(), _id: uuid() },
+            ...todoList
           ]
         });
         add({ userId, content, completed: false }).then(res=>{
@@ -68,6 +61,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> 
     })
   }
   public render() {
+    const { userId } = this.state;
     const { form } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -86,7 +80,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, {userId: number}> 
           </FormItem>
           <Button type="primary" htmlType="submit" icon="plus" onClick={this.handleAdd}>添加</Button>
         </Form>
-        <TodoList/>
+        <TodoList userId={userId} />
       </div>
     );
   }

@@ -8,7 +8,6 @@ async function register(ctx, next) {
     ctx.body = failedResponse({message: '用户名已存在', content: res});
   } else {
     const add = await user.create(ctx.request.body);
-    console.log(add);
     ctx.body = successResponse({message: "注册成功", content: res});
   }
 }
