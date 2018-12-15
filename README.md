@@ -36,3 +36,4 @@ todolist with TS Koa MongoDB Webpack
 - [X] [params with shadow](https://stackoverflow.com/questions/52968903/shadowed-name-in-typescript-and-react-redux)
 - [X] Router props problem: import RouteComponentProps from react-router-dom to define the Component's props
 - [X] alias problem: Resolve alias issues by adding a path configuration in tsconfig
+- [X] static function problem: first, is should be put before constructor; second, specific the type of the method return values
