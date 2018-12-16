@@ -13,6 +13,7 @@ interface TodoListProps {
   addTodo: any,
   toggleCompleted: any,
   userId: number,
+  onRef: any,
 }
 interface S {
   loading: boolean;
@@ -35,14 +36,20 @@ class TodoList extends Component<TodoListProps, S> {
   // }
   constructor(props: TodoListProps) {
     super(props);
+    props.onRef(this);
     this.state = {
       loading: true,
       selectedRowKeys: [],
     }
   }
   public componentDidMount() {
-    const { addTodo, userId } = this.props;
-    fetchTodoList({ userId }).then(res=>{
+    const { userId } = this.props;
+    this.handleSearchList({ userId });
+  }
+  @Bind()
+  public handleSearchList(params: object) {
+    const { addTodo } = this.props;
+    fetchTodoList(params).then(res=>{
       const result = getResponse(res);
       if(result) {
         const { content } = result;
@@ -68,15 +75,8 @@ class TodoList extends Component<TodoListProps, S> {
       const result = getResponse(res);
       if(result) {
         notification.success();
-        const { userId, addTodo } = this.props;
-        fetchTodoList({ userId }).then(list=>{
-          const listResult = getResponse(list);
-          if(listResult) {
-            const { content } = listResult;
-            addTodo({ todoList: content, pagination: createPagination(listResult) });
-            this.handleSelected(content);
-          }
-        })
+        const { userId } = this.props;
+        this.handleSearchList({ userId });
       }
     })
   }

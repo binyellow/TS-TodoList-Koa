@@ -19,6 +19,7 @@ interface TodoProps {
 }
 interface S {
   userId: number;
+  listDom: any;
 }
 const FormItem = Form.Item;
 // @connect(
@@ -31,6 +32,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
     const { userId } = this.props.match.params as TodoProps;
     this.state = {
       userId,
+      listDom: undefined,
     }
   }
   
@@ -41,7 +43,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
       form: { validateFieldsAndScroll, resetFields },
       todoState: { todoList = [] }
     } = this.props;
-    const { userId } = this.state;
+    const { userId, listDom } = this.state;
     validateFieldsAndScroll((err: any, values: any)=>{
       if(!err) {
         const { content } = values;
@@ -54,10 +56,18 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
         add({ userId, content, completed: false }).then(res=>{
           if(res) {
             notification.success();
+            listDom && listDom.handleSearchList({ userId });
           }
         })
         resetFields();
       }
+    })
+  }
+
+  @Bind()
+  public handleRef(node: any) {
+    this.setState({
+      listDom: node
     })
   }
   public render() {
@@ -80,7 +90,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
           </FormItem>
           <Button type="primary" htmlType="submit" icon="plus" onClick={this.handleAdd}>添加</Button>
         </Form>
-        <TodoList userId={userId} />
+        <TodoList userId={userId} onRef={this.handleRef}/>
       </div>
     );
   }
