@@ -14,3 +14,10 @@ export async function fetchTodoList(params: any) {
     params: parseParams(params),
   })
 }
+
+export async function deleteTodo(params: any) {
+  return request(`/todo/delete`, {
+    method: 'DELETE',
+    data: params,
+  })
+}

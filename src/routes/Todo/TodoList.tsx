@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { getResponse, createPagination } from 'utils/utils';
 import { renderTimeStamp } from 'utils/render';
-import { fetchTodoList } from 'service/todo';
+import { fetchTodoList, deleteTodo } from 'service/todo';
 import * as actions from '../../actions/todo';
+import notification from 'utils/notification';
 
 interface TodoListProps {
   todoState: any,
-  deleteTodo: any,
   addTodo: any,
   toggleCompleted: any,
   userId: number,
@@ -17,6 +17,10 @@ interface TodoListProps {
 interface S {
   loading: boolean;
   selectedRowKeys: string[];
+}
+interface RecordProps {
+  _id: any;
+  completed: boolean,
 }
 class TodoList extends Component<TodoListProps, S> {
   // public static getDerivedStateFromProps(props: TodoListProps, state: S): any {
@@ -44,21 +48,37 @@ class TodoList extends Component<TodoListProps, S> {
         const { content } = result;
         this.setState({ loading: false });
         addTodo({ todoList: content, pagination: createPagination(result) });
-        const selectedRowKeys: any[] = [];
-        content.forEach((item: { _id: any, completed: boolean })=>{
-          if(item.completed) {
-            console.log(typeof item._id);
-            selectedRowKeys.push(item._id);
-          }
-        })
-        this.setState({ selectedRowKeys });
+        this.handleSelected(content);
       }
     })
   }
   @Bind()
-  public handleDelete(index: number) {
-    const { deleteTodo } = this.props;
-    deleteTodo({ index });
+  public handleSelected(content: any[]) {
+    const selectedRowKeys: any[] = [];
+    content.forEach((item: { _id: any, completed: boolean })=>{
+      if(item.completed) {
+        selectedRowKeys.push(item._id);
+      }
+    })
+    this.setState({ selectedRowKeys });
+  }
+  @Bind()
+  public handleDelete(record: RecordProps) {
+    deleteTodo({_id: record._id}).then(res=>{
+      const result = getResponse(res);
+      if(result) {
+        notification.success();
+        const { userId, addTodo } = this.props;
+        fetchTodoList({ userId }).then(list=>{
+          const listResult = getResponse(list);
+          if(listResult) {
+            const { content } = listResult;
+            addTodo({ todoList: content, pagination: createPagination(listResult) });
+            this.handleSelected(content);
+          }
+        })
+      }
+    })
   }
   @Bind()
   public handleChangeRow(selectedRowKeys: string[]) {
@@ -96,7 +116,7 @@ class TodoList extends Component<TodoListProps, S> {
         title: '内容',
         dataIndex: 'content',
         width: 250,
-        render: (val: string, record: { completed: boolean }) =>
+        render: (val: string, record: RecordProps) =>
           record.completed ? 
             <span style={{textDecoration: 'line-through', color: '#ccc'}}>{val}</span> : 
             val,
@@ -112,6 +132,13 @@ class TodoList extends Component<TodoListProps, S> {
         dataIndex: 'time',
         width: 250,
         render: renderTimeStamp,
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+        width: 100,
+        render: (val: string, record: RecordProps, index: number) =>
+          <Button type="danger" onClick={()=>this.handleDelete(record)}>删除</Button>,
       }
     ];
     const tableProps = {
@@ -132,5 +159,5 @@ class TodoList extends Component<TodoListProps, S> {
 }
 export default connect(
   (state: any)=>({todoState: state.todo}),
-  { deleteTodo: actions.deleteTodo, addTodo: actions.addTodo, toggleCompleted: actions.toggleCompleted }
+  { addTodo: actions.addTodo, toggleCompleted: actions.toggleCompleted }
 )(TodoList);

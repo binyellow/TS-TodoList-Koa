@@ -1,5 +1,5 @@
 import todo from '../models/todo';
-import { successResponse } from '../utils/response';
+import { successResponse, failedResponse } from '../utils/response';
 import { toSafeNumber } from '../utils/utils';
 
 async function add(ctx, next) {
@@ -20,9 +20,9 @@ async function add(ctx, next) {
 
 async function fetchList(ctx, next) {
   const { userId, current = 0, pageSize = 10 } = toSafeNumber(ctx.query, ['current', 'pageSize']);
-  const total = await todo.find({ userId });
+  const total = todo.find({ userId });
   console.log(current, pageSize);
-  let res = await todo.find({ userId }).sort({time: -1}).skip((current)*pageSize).limit(pageSize);
+  let res = await total.sort({time: -1}).skip((current)*pageSize).limit(pageSize);
   if(res instanceof Array && res.length>=0) {
     ctx.body = successResponse({
       current,
@@ -40,4 +40,16 @@ async function fetchList(ctx, next) {
   }
 }
 
-module.exports = { add, fetchList }
+async function deleteItem(ctx, next) {
+  const { _id } = ctx.request.body;
+  console.log(_id);
+  const res = await todo.findOneAndDelete({ _id }).exec();
+  console.log(res);
+  if(res) {
+    ctx.body = successResponse();
+  } else {
+    ctx.body = failedResponse();
+  }
+}
+
+module.exports = { add, fetchList, deleteItem }

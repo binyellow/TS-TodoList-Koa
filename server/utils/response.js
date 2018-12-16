@@ -7,11 +7,11 @@
  * @param pageSize? 分页大小
  * @returns Object
  */
-function successResponse({message, content, total = 10, current = 0, pageSize = 10}) {
+function successResponse({message = '操作成功', content, total = 10, current = 0, pageSize = 10} = {}) {
   const result = JSON.parse(JSON.stringify({content, total, current, pageSize}));
   return {
+    message,
     failed: false,
-    message: message || '操作成功',
     ...result
   }
 }
@@ -23,7 +23,7 @@ function successResponse({message, content, total = 10, current = 0, pageSize = 
  * @param message 消息
  * @returns Object
  */
-function failedResponse({content, message}) {
+function failedResponse({content = undefined, message = '操作失败'} = {}) {
   const result = JSON.parse(JSON.stringify({content, message}));
   return {
     failed: true,
