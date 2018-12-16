@@ -11,10 +11,12 @@ interface TodoListProps {
   todoState: any,
   deleteTodo: any,
   addTodo: any,
+  toggleCompleted: any,
   userId: number,
 }
 interface S {
   loading: boolean;
+  selectedRowKeys: string[];
 }
 class TodoList extends Component<TodoListProps, S> {
   // public static getDerivedStateFromProps(props: TodoListProps, state: S): any {
@@ -31,6 +33,7 @@ class TodoList extends Component<TodoListProps, S> {
     super(props);
     this.state = {
       loading: true,
+      selectedRowKeys: [],
     }
   }
   public componentDidMount() {
@@ -38,8 +41,17 @@ class TodoList extends Component<TodoListProps, S> {
     fetchTodoList({ userId }).then(res=>{
       const result = getResponse(res);
       if(result) {
+        const { content } = result;
         this.setState({ loading: false });
-        addTodo({ todoList: result.content, pagination: createPagination(result) });
+        addTodo({ todoList: content, pagination: createPagination(result) });
+        const selectedRowKeys: any[] = [];
+        content.forEach((item: { _id: any, completed: boolean })=>{
+          if(item.completed) {
+            console.log(typeof item._id);
+            selectedRowKeys.push(item._id);
+          }
+        })
+        this.setState({ selectedRowKeys });
       }
     })
   }
@@ -47,6 +59,12 @@ class TodoList extends Component<TodoListProps, S> {
   public handleDelete(index: number) {
     const { deleteTodo } = this.props;
     deleteTodo({ index });
+  }
+  @Bind()
+  public handleChangeRow(selectedRowKeys: string[]) {
+    const { toggleCompleted } = this.props;
+    this.setState({ selectedRowKeys });
+    toggleCompleted({selectedRowKeys});
   }
   @Bind()
   public handleChangePage(pagination: { current: number, pageSize: number }) {
@@ -62,8 +80,12 @@ class TodoList extends Component<TodoListProps, S> {
     })
   }
   public render() {
-    const { loading = false } = this.state;
+    const { loading = false, selectedRowKeys } = this.state;
     const { todoState: { todoList = [], pagination = {} } } = this.props;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.handleChangeRow,
+    }
     const columns = [
       {
         title: '用户id',
@@ -73,12 +95,16 @@ class TodoList extends Component<TodoListProps, S> {
       {
         title: '内容',
         dataIndex: 'content',
-        width: 250
+        width: 250,
+        render: (val: string, record: { completed: boolean }) =>
+          record.completed ? 
+            <span style={{textDecoration: 'line-through', color: '#ccc'}}>{val}</span> : 
+            val,
       },
       {
         title: '是否已完成',
         dataIndex: 'completed',
-        width: 100,
+        width: 120,
         render: (value: boolean) => value ? '是' : '否',
       },
       {
@@ -92,6 +118,7 @@ class TodoList extends Component<TodoListProps, S> {
       columns,
       loading,
       pagination,
+      rowSelection,
       rowKey: '_id',
       scroll: { y: 400 },
       bordered: true,
@@ -105,5 +132,5 @@ class TodoList extends Component<TodoListProps, S> {
 }
 export default connect(
   (state: any)=>({todoState: state.todo}),
-  { deleteTodo: actions.deleteTodo, addTodo: actions.addTodo }
+  { deleteTodo: actions.deleteTodo, addTodo: actions.addTodo, toggleCompleted: actions.toggleCompleted }
 )(TodoList);

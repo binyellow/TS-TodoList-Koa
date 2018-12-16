@@ -1,14 +1,21 @@
-import { ADD, DELETE } from '../constance/todo';
+import { ADD, DELETE, COMPLETED } from '../constance/todo';
 
-export function addTodo(payload: any) {
+export function addTodo(payload: object) {
   return {
     payload,
     type: ADD,
   }
 }
-export function deleteTodo(payload: any) {
+export function deleteTodo(payload: object) {
   return {
     payload,
     type: DELETE,
+  }
+}
+
+export function toggleCompleted(payload: any) {
+  return {
+    payload,
+    type: COMPLETED,
   }
 }
