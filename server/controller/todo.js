@@ -21,7 +21,6 @@ async function add(ctx, next) {
 async function fetchList(ctx, next) {
   const { userId, current = 0, pageSize = 10 } = toSafeNumber(ctx.query, ['current', 'pageSize']);
   const total = todo.find({ userId });
-  console.log(current, pageSize);
   let res = await total.sort({time: -1}).skip((current)*pageSize).limit(pageSize);
   if(res instanceof Array && res.length>=0) {
     ctx.body = successResponse({
@@ -42,9 +41,7 @@ async function fetchList(ctx, next) {
 
 async function deleteItem(ctx, next) {
   const { _id } = ctx.request.body;
-  console.log(_id);
   const res = await todo.findOneAndDelete({ _id }).exec();
-  console.log(res);
   if(res) {
     ctx.body = successResponse();
   } else {
@@ -52,4 +49,41 @@ async function deleteItem(ctx, next) {
   }
 }
 
-module.exports = { add, fetchList, deleteItem }
+// async function updateTodo(toggleList) {
+//   // do {
+//   //   const { _id, completed } = toggleList[i];
+//   //   const query = todo.findOne({ _id });
+//   //   await query.updateOne({ $set: { completed: !completed } }, (err, values)=> {
+//   //     if(i === toggleList.length - 1 ) {
+//   //       return values
+//   //     }
+//   //   });
+//   //   i++;
+//   // }
+//   // while( i <= toggleList.length-1 );
+//   return toggleList.map(item=> {
+//     const { _id, completed } = item;
+//     console.log('_id===>', _id, 'completed===>', completed);
+//     return todo.findOneAndUpdate({ _id }, { $set: { completed: !completed } }).exec();
+//   })
+// }
+
+async function toggle(ctx, next) {
+  const { toggleList = [] } = ctx.request.body;
+  console.log('toggleList===>', toggleList);
+  const res = await todo.bulkWrite(toggleList.map(item=>{
+    const { _id, completed } = item;
+    return {
+      updateOne: {
+        filter: { _id },
+        update: { completed: !completed },
+      }
+    }
+  }));
+  if(res) {
+    ctx.body = successResponse();
+  } else {
+    ctx.body = failedResponse();
+  }
+}
+module.exports = { add, fetchList, deleteItem, toggle }

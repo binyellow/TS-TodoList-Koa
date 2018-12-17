@@ -21,3 +21,10 @@ export async function deleteTodo(params: any) {
     data: params,
   })
 }
+
+export async function toggleTodo(params: any) {
+  return request(`/todo/toggle`, {
+    method: 'PUT',
+    data: params,
+  })
+}

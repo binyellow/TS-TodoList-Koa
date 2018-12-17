@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { getResponse, createPagination } from 'utils/utils';
 import { renderTimeStamp } from 'utils/render';
-import { fetchTodoList, deleteTodo } from 'service/todo';
+import { fetchTodoList, deleteTodo, toggleTodo } from 'service/todo';
 import * as actions from '../../actions/todo';
 import notification from 'utils/notification';
 
 interface TodoListProps {
   todoState: any,
-  addTodo: any,
+  updateState: any,
   toggleCompleted: any,
   userId: number,
   onRef: any,
@@ -48,25 +48,27 @@ class TodoList extends Component<TodoListProps, S> {
   }
   @Bind()
   public handleSearchList(params: object) {
-    const { addTodo } = this.props;
+    this.setState({ loading: true });
+    const { updateState } = this.props;
     fetchTodoList(params).then(res=>{
       const result = getResponse(res);
       if(result) {
         const { content } = result;
         this.setState({ loading: false });
-        addTodo({ todoList: content, pagination: createPagination(result) });
-        this.handleSelected(content);
+        updateState({ todoList: content, pagination: createPagination(result) });
+        this.handleSetSelectedRowKeys(content);
       }
     })
   }
   @Bind()
-  public handleSelected(content: any[]) {
+  public handleSetSelectedRowKeys(content: any[]) {
     const selectedRowKeys: any[] = [];
     content.forEach((item: { _id: any, completed: boolean })=>{
       if(item.completed) {
         selectedRowKeys.push(item._id);
       }
     })
+    console.log(selectedRowKeys);
     this.setState({ selectedRowKeys });
   }
   @Bind()
@@ -81,20 +83,37 @@ class TodoList extends Component<TodoListProps, S> {
     })
   }
   @Bind()
-  public handleChangeRow(selectedRowKeys: string[]) {
-    const { toggleCompleted } = this.props;
-    this.setState({ selectedRowKeys });
-    toggleCompleted({selectedRowKeys});
+  public handleChangeRow(selectedRowKeys: string[], selectedRows: any[]) {
+    const { userId, todoState: { todoList = [] } } = this.props;
+    // this.setState({ selectedRowKeys });
+    // toggleCompleted({ selectedRowKeys });
+    const toggleList: object[] = [];
+    todoList.forEach((item: RecordProps)=> {
+      if(selectedRowKeys.indexOf(item._id) >= 0) {
+        if(!item.completed) {
+          toggleList.push(item);  // 如果被选中但是先前没完成
+        }
+      } else if(item.completed) {
+        toggleList.push(item);  // 或者之前没被选中 现在是完成
+      }
+    })
+    toggleTodo({ toggleList }).then((res: object)=> {
+      const result = getResponse(res);
+      if(result) {
+        notification.success();
+        this.handleSearchList({ userId });
+      }
+    })
   }
   @Bind()
   public handleChangePage(pagination: { current: number, pageSize: number }) {
-    const { addTodo, userId } = this.props;
+    const { updateState, userId } = this.props;
     const { current, pageSize } = pagination;
     this.setState({ loading: true });
     fetchTodoList({ userId, current, pageSize }).then(res=>{
       const result = getResponse(res);
       if(result) {
-        addTodo({ todoList: result.content, pagination: createPagination(result) });
+        updateState({ todoList: result.content, pagination: createPagination(result) });
         this.setState({ loading: false });
       }
     })
@@ -159,5 +178,5 @@ class TodoList extends Component<TodoListProps, S> {
 }
 export default connect(
   (state: any)=>({todoState: state.todo}),
-  { addTodo: actions.addTodo, toggleCompleted: actions.toggleCompleted }
+  { updateState: actions.updateState, toggleCompleted: actions.toggleCompleted }
 )(TodoList);

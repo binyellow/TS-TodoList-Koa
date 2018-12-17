@@ -12,7 +12,7 @@ import TodoList from './TodoList';
 import styles from './index.module.less';
 
 interface TodoProps {
-  addTodo: any,
+  updateState: any,
   form: any,
   todoState: any,
   userId: number,
@@ -24,7 +24,7 @@ interface S {
 const FormItem = Form.Item;
 // @connect(
 //   (state: any)=>state,
-//   { addTodo }
+//   { updateState }
 // )
 class Todo extends Component<TodoProps & RouteComponentProps, S> {
   constructor(props: TodoProps & RouteComponentProps) {
@@ -39,7 +39,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
   @Bind()
   public handleAdd() {
     const {
-      addTodo,
+      updateState,
       form: { validateFieldsAndScroll, resetFields },
       todoState: { todoList = [] }
     } = this.props;
@@ -47,7 +47,7 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
     validateFieldsAndScroll((err: any, values: any)=>{
       if(!err) {
         const { content } = values;
-        content && addTodo({
+        content && updateState({
           todoList: [
             { userId, content, completed: false, time: Date.now(), _id: uuid() },
             ...todoList
@@ -98,5 +98,5 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
 
 export default withRouter(connect(
   (state: any)=>({todoState: state.todo}),
-  { addTodo: actions.addTodo }
+  { updateState: actions.updateState }
 )(Form.create()(Todo)));

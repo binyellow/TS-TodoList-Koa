@@ -1,6 +1,6 @@
 import { ADD, DELETE, COMPLETED } from '../constance/todo';
 
-export function addTodo(payload: object) {
+export function updateState(payload: object) {
   return {
     payload,
     type: ADD,
