@@ -20,13 +20,13 @@ async function add(ctx, next) {
 
 async function fetchList(ctx, next) {
   const { userId, current = 0, pageSize = 10 } = toSafeNumber(ctx.query, ['current', 'pageSize']);
-  const total = todo.find({ userId });
-  let res = await total.sort({time: -1}).skip((current)*pageSize).limit(pageSize);
+  const query = await todo.find({ userId });
+  let res = await todo.find({ userId }).sort({time: -1}).skip((current)*pageSize).limit(pageSize);
   if(res instanceof Array && res.length>=0) {
     ctx.body = successResponse({
       current,
       pageSize,
-      total: total.length,
+      total: query.length,
       message: "查询成功",
       content: res,
     });
