@@ -1,3 +1,4 @@
+写英文md是我想学英语, 如果不习惯中式英文, [中文md点这里](https://github.com/binyellow/TS-TodoList-Koa/tree/develop-zh)
 # TS-TodoList-Koa
 todolist with TS Koa MongoDB Webpack
 
