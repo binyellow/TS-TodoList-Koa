@@ -49,24 +49,36 @@ async function deleteItem(ctx, next) {
   }
 }
 
-// async function updateTodo(toggleList) {
-//   // do {
-//   //   const { _id, completed } = toggleList[i];
-//   //   const query = todo.findOne({ _id });
-//   //   await query.updateOne({ $set: { completed: !completed } }, (err, values)=> {
-//   //     if(i === toggleList.length - 1 ) {
-//   //       return values
-//   //     }
-//   //   });
-//   //   i++;
-//   // }
-//   // while( i <= toggleList.length-1 );
-//   return toggleList.map(item=> {
-//     const { _id, completed } = item;
-//     console.log('_id===>', _id, 'completed===>', completed);
-//     return todo.findOneAndUpdate({ _id }, { $set: { completed: !completed } }).exec();
-//   })
-// }
+/**
+ * 循环更新效率很低，Todo updateMany
+ * @param {*} ctx
+ * @param {function} next
+ */
+async function toggleForeach(ctx, next) {
+  const { toggleList = [] } = ctx.request.body;
+  console.log('toggleList===>', toggleList);
+  await new Promise((resolve, reject)=>{
+    let res = undefined;
+    toggleList.forEach(async (item, index)=> {
+      const { _id, completed } = item;
+      const result = todo.find({ _id });
+      res = await result.update({ $set: { completed: !completed }}).exec();
+      if(res) {
+        if(index === toggleList.length - 1) {
+          resolve(res);
+        }
+      } else {
+        reject(res);
+      }
+    })
+  }).then(res=> {
+    ctx.body = successResponse();
+  }, res=> {
+    ctx.body = failedResponse();
+  }).catch(err=> {
+    ctx.body = failedResponse();
+  })
+}
 
 async function toggle(ctx, next) {
   const { toggleList = [] } = ctx.request.body;
