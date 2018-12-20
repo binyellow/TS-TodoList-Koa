@@ -11,7 +11,7 @@ todolist with TS Koa MongoDB Webpack
 - [x] nginx to agency the local request
 - [x] add delete and toggle completed
 - [ ] add editRow,Cell. add Search
-- [ ] register and login with token
+- [x] register and login with token
 - [ ] docker,jenkins
 
 ### Some problem in the progress
