@@ -20,8 +20,12 @@ function checkStatus(response: any) {
 export default function request(url: string, options: any) {
   const newOptions = { responseType: 'json', ...options };
   // newOptions.body = JSON.stringify(newOptions.body);
+  const token = sessionStorage.getItem('token');
   return axios({
     url,
+    headers: {
+      'Authorization': `bearer ${token}`
+    },
     ...newOptions
   })
     .then(checkStatus)

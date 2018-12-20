@@ -7,8 +7,8 @@
  * @param pageSize? 分页大小
  * @returns Object
  */
-function successResponse({message = '操作成功', content, total = 10, current = 0, pageSize = 10} = {}) {
-  const result = JSON.parse(JSON.stringify({content, total, current, pageSize}));
+function successResponse({message = '操作成功', content, token, total = 10, current = 0, pageSize = 10} = {}) {
+  const result = JSON.parse(JSON.stringify({content, total, current, pageSize, token}));
   return {
     message,
     failed: false,

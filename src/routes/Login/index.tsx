@@ -24,6 +24,7 @@ class Login extends Component<LoginProps & RouteComponentProps> {
           if(result) {
             const { _id } = result.content;
             notification.success();
+            sessionStorage.setItem('token',result.token);
             const path = {
               pathname: `/todo/${_id}`,
               // state: {

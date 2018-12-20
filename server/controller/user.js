@@ -1,5 +1,6 @@
 import user from '../models/user';
 import { successResponse, failedResponse } from '../utils/response';
+import jsonwebtoken from 'jsonwebtoken';
 
 async function register(ctx, next) {
   const { name } = ctx.request.body;
@@ -18,7 +19,14 @@ async function login(ctx) {
   if(res) {
     const passRes = await user.findOne({ name, passWord });
     if(passRes) {
-      ctx.body = successResponse({ message: "登录成功!", content: passRes });
+      ctx.body = successResponse({
+        message: "登录成功!",
+        content: passRes,
+        token: jsonwebtoken.sign({
+          data: name,
+          exp: Math.floor(Date.now() / 1000) + (60 * 60),
+        }, 'huangbin')
+      });
     } else {
       ctx.body = failedResponse({ message: "密码不正确!" });
     }
