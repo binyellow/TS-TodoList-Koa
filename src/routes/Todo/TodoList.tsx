@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { getResponse, createPagination } from 'utils/utils';
 import { renderTimeStamp } from 'utils/render';
 import { fetchTodoList, deleteTodo, toggleTodo } from 'service/todo';
+import EditTable from '../../components/EditTable';
 import * as actions from '../../actions/todo';
 import notification from 'utils/notification';
 
+const FormItem = Form.Item;
 interface TodoListProps {
   todoState: any,
   updateState: any,
@@ -22,6 +24,8 @@ interface S {
 interface RecordProps {
   _id: any;
   completed: boolean,
+  _status: string,
+  $form: any,
 }
 class TodoList extends Component<TodoListProps, S> {
   // public static getDerivedStateFromProps(props: TodoListProps, state: S): any {
@@ -135,10 +139,22 @@ class TodoList extends Component<TodoListProps, S> {
         title: '内容',
         dataIndex: 'content',
         width: 250,
+        // render: (val: string, record: RecordProps) =>
+        //   record.completed ? 
+        //     <span style={{textDecoration: 'line-through', color: '#ccc'}}>{val}</span> : 
+        //     val,  style={{record.completed ? textDecoration: 'line-through', color: '#ccc' : ''}}
         render: (val: string, record: RecordProps) =>
-          record.completed ? 
-            <span style={{textDecoration: 'line-through', color: '#ccc'}}>{val}</span> : 
-            val,
+          ['create', 'update'].includes(record._status) ? (
+            <FormItem>
+              {record.$form.getFieldDecorator(`content`, {
+                
+              })(<Input />)}
+            </FormItem>
+          ) : (
+            <span >
+              {val}
+            </span>
+          ),
       },
       {
         title: '是否已完成',
@@ -172,7 +188,7 @@ class TodoList extends Component<TodoListProps, S> {
       onChange: this.handleChangePage,
     }
     return (
-      <Table {...tableProps}/>
+      <EditTable {...tableProps}/>
     )
   }
 }

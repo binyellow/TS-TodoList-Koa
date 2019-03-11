@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-import notification from 'utils/notification';
+// import notification from 'utils/notification';
 import * as actions from '../../actions/todo'; // shadow name problem must to import *
-import { add } from '../../services/todo';
+// import { add } from '../../services/todo';
 import TodoList from './TodoList';
 import styles from './index.module.less';
 
@@ -22,10 +22,6 @@ interface S {
   listDom: any;
 }
 const FormItem = Form.Item;
-// @connect(
-//   (state: any)=>state,
-//   { updateState }
-// )
 class Todo extends Component<TodoProps & RouteComponentProps, S> {
   constructor(props: TodoProps & RouteComponentProps) {
     super(props);
@@ -40,27 +36,29 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
   public handleAdd() {
     const {
       updateState,
-      form: { validateFieldsAndScroll, resetFields },
+      // form: { validateFieldsAndScroll, resetFields },
       todoState: { todoList = [] }
     } = this.props;
-    const { userId, listDom } = this.state;
-    validateFieldsAndScroll((err: any, values: any)=>{
-      if(!err) {
-        const { content } = values;
-        content && updateState({
-          todoList: [
-            { userId, content, completed: false, time: Date.now(), _id: uuid() },
-            ...todoList
-          ]
-        });
-        add({ userId, content, completed: false }).then(res=>{
-          if(res) {
-            notification.success();
-            listDom && listDom.handleSearchList({ userId });
-          }
-        })
-        resetFields();
-      }
+    // const { userId, listDom } = this.state;
+    // validateFieldsAndScroll((err: any, values: any)=>{
+    //   if(!err) {
+    //     const { content } = values;
+    //     content && ;
+    //     add({ userId, content, completed: false }).then(res=>{
+    //       if(res) {
+    //         notification.success();
+    //         listDom && listDom.handleSearchList({ userId });
+    //       }
+    //     })
+    //     resetFields();
+    //   }
+    // })
+    const { userId } = this.state;
+    updateState({
+      todoList: [
+        { userId, content: 'test', completed: false, time: Date.now(), _id: uuid(), _status: 'create' },
+        ...todoList
+      ]
     })
   }
 
