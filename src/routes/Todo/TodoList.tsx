@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Badge } from 'antd';
 import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { getResponse, createPagination } from 'utils/utils';
@@ -144,7 +144,8 @@ class TodoList extends Component<TodoListProps, S> {
         title: '是否已完成',
         dataIndex: 'completed',
         width: 120,
-        render: (value: boolean) => value ? '是' : '否',
+        align: 'center' as 'center',
+        render: (value: boolean) => value ? <span><Badge status="success" text="Completed" /></span> : <span><Badge status="processing" text="Processing" /></span>,
       },
       {
         title: '备忘时间',
@@ -155,6 +156,7 @@ class TodoList extends Component<TodoListProps, S> {
       {
         title: '操作',
         dataIndex: 'operation',
+        align: 'center' as 'center',
         width: 100,
         render: (val: string, record: RecordProps, index: number) =>
           <Button type="danger" onClick={()=>this.handleDelete(record)}>删除</Button>,
