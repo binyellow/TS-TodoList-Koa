@@ -9,6 +9,7 @@ import * as actions from '../../actions/todo';
 import notification from 'utils/notification';
 
 interface TodoListProps {
+  user: any,
   todoState: any,
   updateState: any,
   toggleCompleted: any,
@@ -120,16 +121,18 @@ class TodoList extends Component<TodoListProps, S> {
   }
   public render() {
     const { loading = false, selectedRowKeys } = this.state;
-    const { todoState: { todoList = [], pagination = {} } } = this.props;
+    const { todoState: { todoList = [], pagination = {} }, user, userId } = this.props;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.handleChangeRow,
     }
+    const { name } = user.userList.length > 0 && user.userList.find((item: { _id: any })=> item._id === userId);
     const columns = [
       {
-        title: '用户id',
+        title: '用户名',
         dataIndex: 'userId',
         width: 250,
+        render: ()=> <span>{name}</span>,
       },
       {
         title: '内容',
@@ -179,6 +182,6 @@ class TodoList extends Component<TodoListProps, S> {
   }
 }
 export default connect(
-  (state: any)=>({todoState: state.todo}),
+  (state: any)=>({todoState: state.todo, user: state.user}),
   { updateState: actions.updateState, toggleCompleted: actions.toggleCompleted }
 )(TodoList);

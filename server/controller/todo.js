@@ -32,7 +32,7 @@ async function fetchList(ctx, next) {
     });
   } else {
     ctx.body = {
-      failed: false,
+      failed: true,
       message: '无list',
       content: []
     }

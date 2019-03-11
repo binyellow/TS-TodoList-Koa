@@ -13,3 +13,10 @@ export async function login(params: any) {
     data: params,
   })
 }
+
+export async function fetchUserList(params: any) {
+  return request(`/user/fetchUserList`, {
+    method: 'GET',
+    params,
+  })
+}

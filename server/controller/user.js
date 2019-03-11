@@ -34,4 +34,21 @@ async function login(ctx) {
     ctx.body = failedResponse({ message: '账号不存在!' });
   }
 }
-module.exports = { register, login }
+
+async function fetchUserList(ctx, next) {
+  const content = await user.find();
+  if(content) {
+    ctx.body = {
+      failed: false,
+      message: '查询成功',
+      content
+    }
+  } else {
+    ctx.body = {
+      failed: true,
+      message: '无list',
+      content: []
+    }
+  }
+}
+module.exports = { register, login, fetchUserList }

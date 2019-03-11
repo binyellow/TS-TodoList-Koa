@@ -5,14 +5,18 @@ import { connect } from 'react-redux';
 import { Bind } from 'lodash-decorators';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
+import { fetchUserList } from 'service/user';
+import { getResponse } from 'utils/utils';
 import notification from 'utils/notification';
 import * as actions from '../../actions/todo'; // shadow name problem must to import *
+import * as userActions from '../../actions/user';
 import { add } from '../../services/todo';
 import TodoList from './TodoList';
 import styles from './index.module.less';
 
 interface TodoProps {
   updateState: any,
+  updateUser: any,
   form: any,
   todoState: any,
   userId: number,
@@ -35,7 +39,15 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
       listDom: undefined,
     }
   }
-  
+  public componentDidMount() {
+    const { updateUser } = this.props;
+    fetchUserList({}).then(res=>{
+      const result = getResponse(res);
+      if(result) {
+        updateUser({ userList: result.content });
+      }
+    })
+  }
   @Bind()
   public handleAdd() {
     const {
@@ -98,5 +110,5 @@ class Todo extends Component<TodoProps & RouteComponentProps, S> {
 
 export default withRouter(connect(
   (state: any)=>({todoState: state.todo}),
-  { updateState: actions.updateState }
+  { updateState: actions.updateState, updateUser: userActions.updateState }
 )(Form.create()(Todo)));
