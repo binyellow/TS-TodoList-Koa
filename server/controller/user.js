@@ -24,7 +24,7 @@ async function login(ctx) {
         content: passRes,
         token: jsonwebtoken.sign({
           data: name,
-          exp: Math.floor(Date.now() / 1000) + (60 * 60),
+          exp: Math.floor(Date.now() / 1000) + (60),
         }, 'huangbin')
       });
     } else {
